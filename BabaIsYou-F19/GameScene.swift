@@ -48,13 +48,62 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         print("did Move")
 
         
-        self.baba = self.childNode(withName: "baba") as! SKSpriteNode
-        
-        self.baba.physicsBody = SKPhysicsBody(rectangleOf: baba.size)
-        self.baba.physicsBody?.affectedByGravity = false
-        self.baba.physicsBody?.allowsRotation = false
-        self.baba.physicsBody?.categoryBitMask = 1
+        //Setup BABA
+            self.baba = self.childNode(withName: "baba") as! SKSpriteNode
+            self.baba.physicsBody = SKPhysicsBody(rectangleOf: baba.size)
+            self.baba.physicsBody?.affectedByGravity = false
+            self.baba.physicsBody?.allowsRotation = false
+            self.baba.physicsBody?.categoryBitMask = 1
 
+        //Setup FLAG
+                self.flag = self.childNode(withName: "flag") as! SKSpriteNode
+                self.flag.physicsBody = SKPhysicsBody(rectangleOf: flag.size)
+                self.flag.physicsBody?.affectedByGravity = false
+                self.flag.physicsBody?.allowsRotation = false
+                self.flag.physicsBody?.categoryBitMask = 2
+                
+        //Setup Flag Block
+               
+               self.flagBlock = self.childNode(withName: "flagblock") as! SKSpriteNode
+               self.flagBlock.physicsBody = SKPhysicsBody(rectangleOf: flagBlock.size)
+               self.flagBlock.physicsBody?.affectedByGravity = false
+               self.flagBlock.physicsBody?.allowsRotation = false
+               self.flagBlock.physicsBody?.categoryBitMask = 4
+
+        //Setup IS blocks
+        self.enumerateChildNodes(withName: "isblock") {(node, stop) in
+            self.isBlock = node as! SKSpriteNode
+                self.isBlock.physicsBody = SKPhysicsBody(rectangleOf: self.isBlock.size)
+                self.isBlock.physicsBody?.affectedByGravity = false
+                                self.isBlock.physicsBody?.categoryBitMask = 8
+                                self.isBlock.physicsBody?.collisionBitMask = 0
+                                self.isBlock.physicsBody?.contactTestBitMask = 0
+            
+        }
+        
+        //Setup Stop Block
+        
+        self.stopBlock = self.childNode(withName: "stopblock") as! SKSpriteNode
+        self.stopBlock.physicsBody = SKPhysicsBody(rectangleOf: stopBlock.size)
+        self.stopBlock.physicsBody?.affectedByGravity = false
+        self.stopBlock.physicsBody?.allowsRotation = false
+        self.stopBlock.physicsBody?.categoryBitMask = 16
+        
+        //Setup Win Block
+        
+        self.winBlock = self.childNode(withName: "winblock") as! SKSpriteNode
+        self.winBlock.physicsBody = SKPhysicsBody(rectangleOf: winBlock.size)
+        self.winBlock.physicsBody?.affectedByGravity = false
+        self.winBlock.physicsBody?.allowsRotation = false
+        self.winBlock.physicsBody?.categoryBitMask = 32
+
+        //Setup Wall block
+                
+        self.wallBlock = self.childNode(withName: "wallblock") as! SKSpriteNode
+        self.wallBlock.physicsBody = SKPhysicsBody(rectangleOf: wallBlock.size)
+        self.wallBlock.physicsBody?.affectedByGravity = false
+        self.wallBlock.physicsBody?.allowsRotation = false
+        self.wallBlock.physicsBody?.categoryBitMask = 64
         
         //Setup Walls
         self.enumerateChildNodes(withName: "wall") {
@@ -65,46 +114,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                    stick.physicsBody?.categoryBitMask = 128
                    stick.physicsBody?.collisionBitMask = 0
                }
-        //Setup IS blocks
-        self.enumerateChildNodes(withName: "isblock") {(node, stop) in
-                let isBlock = node as! SKSpriteNode
-                isBlock.physicsBody = SKPhysicsBody(rectangleOf: isBlock.size)
-                isBlock.physicsBody?.affectedByGravity = false
-                                isBlock.physicsBody?.categoryBitMask = 8
-                                isBlock.physicsBody?.collisionBitMask = 0
-                                isBlock.physicsBody?.contactTestBitMask = 0
-            
-        }
-                
-
         //Initialize the labels
         upLabel = self.childNode(withName: "uplabel") as! SKLabelNode
         downLabel = self.childNode(withName: "downlabel") as! SKLabelNode
         rightLabel = self.childNode(withName: "rightlabel") as! SKLabelNode
         leftLabel = self.childNode(withName: "leftlabel") as! SKLabelNode
         
-        //Check if the wall rule is alive
-        
+    
        
     }
-//   
-
     func didBegin(_ contact: SKPhysicsContact) {
 //        print(contact.bodyA.)
         print("Something collided!")
     }
     
     override func update(_ currentTime: TimeInterval) {
-//        if(self.wallBlock.frame.intersects(self.isBlock.frame)
-//            &&
-//            self.isBlock.frame.intersects(self.stopBlock.frame)){
-//            print("Wall Rule Alive!")
-//            //                        self.baba.physicsBody?.collisionBitMask = 246
-//            //                self.baba.physicsBody?.contactTestBitMask = 128
-//        }
-//        else {
-//            //                  self.baba.physicsBody?.collisionBitMask = 118
-//                }
+       
         // Called before each frame is rendered
     }
     
