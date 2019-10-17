@@ -80,15 +80,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                 self.isBlock.physicsBody?.contactTestBitMask = 0
             
         }
-        
-        //Setup Stop Block
-        
-        self.stopBlock = self.childNode(withName: "stopblock") as! SKSpriteNode
-        self.stopBlock.physicsBody = SKPhysicsBody(rectangleOf: stopBlock.size)
-        self.stopBlock.physicsBody?.affectedByGravity = false
-        self.stopBlock.physicsBody?.allowsRotation = false
-        self.stopBlock.physicsBody?.categoryBitMask = 16
-        
         //Setup Win Block
         
         self.winBlock = self.childNode(withName: "winblock") as! SKSpriteNode
@@ -97,6 +88,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.winBlock.physicsBody?.allowsRotation = false
         self.winBlock.physicsBody?.categoryBitMask = 32
 
+        //Setup Stop Block
+        
+        self.stopBlock = self.childNode(withName: "stopblock") as! SKSpriteNode
+        self.stopBlock.physicsBody = SKPhysicsBody(rectangleOf: stopBlock.size)
+        self.stopBlock.physicsBody?.affectedByGravity = false
+        self.stopBlock.physicsBody?.allowsRotation = false
+        self.stopBlock.physicsBody?.categoryBitMask = 16
         //Setup Wall block
                 
         self.wallBlock = self.childNode(withName: "wallblock") as! SKSpriteNode
