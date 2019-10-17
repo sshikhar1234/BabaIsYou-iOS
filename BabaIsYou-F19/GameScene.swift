@@ -53,7 +53,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.baba.physicsBody = SKPhysicsBody(rectangleOf: baba.size)
             self.baba.physicsBody?.affectedByGravity = false
             self.baba.physicsBody?.allowsRotation = false
-            self.baba.physicsBody?.categoryBitMask = 1
 
         //Setup FLAG
                 self.flag = self.childNode(withName: "flag") as! SKSpriteNode
@@ -69,6 +68,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                self.flagBlock.physicsBody?.affectedByGravity = false
                self.flagBlock.physicsBody?.allowsRotation = false
                self.flagBlock.physicsBody?.categoryBitMask = 4
+               self.flagBlock.physicsBody?.contactTestBitMask = 9
+
 
         //Setup IS blocks
         self.enumerateChildNodes(withName: "isblock") {(node, stop) in
@@ -77,9 +78,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.isBlock.physicsBody?.affectedByGravity = false
                                 self.isBlock.physicsBody?.categoryBitMask = 8
                                 self.isBlock.physicsBody?.collisionBitMask = 0
-                                self.isBlock.physicsBody?.contactTestBitMask = 0
+                                self.isBlock.physicsBody?.contactTestBitMask = 117
             
         }
+        
+        //Setup Stop Block
+                      
+                      self.stopBlock = self.childNode(withName: "stopblock") as! SKSpriteNode
+                      self.stopBlock.physicsBody = SKPhysicsBody(rectangleOf: stopBlock.size)
+                      self.stopBlock.physicsBody?.affectedByGravity = false
+                      self.stopBlock.physicsBody?.allowsRotation = false
+                      self.stopBlock.physicsBody?.categoryBitMask = 16
+
         //Setup Win Block
         
         self.winBlock = self.childNode(withName: "winblock") as! SKSpriteNode
@@ -87,14 +97,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.winBlock.physicsBody?.affectedByGravity = false
         self.winBlock.physicsBody?.allowsRotation = false
         self.winBlock.physicsBody?.categoryBitMask = 32
+        self.winBlock.physicsBody?.contactTestBitMask = 9
 
-        //Setup Stop Block
-        
-        self.stopBlock = self.childNode(withName: "stopblock") as! SKSpriteNode
-        self.stopBlock.physicsBody = SKPhysicsBody(rectangleOf: stopBlock.size)
-        self.stopBlock.physicsBody?.affectedByGravity = false
-        self.stopBlock.physicsBody?.allowsRotation = false
-        self.stopBlock.physicsBody?.categoryBitMask = 16
+
         //Setup Wall block
                 
         self.wallBlock = self.childNode(withName: "wallblock") as! SKSpriteNode
@@ -102,6 +107,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.wallBlock.physicsBody?.affectedByGravity = false
         self.wallBlock.physicsBody?.allowsRotation = false
         self.wallBlock.physicsBody?.categoryBitMask = 64
+        self.wallBlock.physicsBody?.collisionBitMask = 0
+        self.wallBlock.physicsBody?.contactTestBitMask = 9
         
         //Setup Walls
         self.enumerateChildNodes(withName: "wall") {
@@ -110,7 +117,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                    stick.physicsBody = SKPhysicsBody(rectangleOf: stick.size)
                    stick.physicsBody?.affectedByGravity = false
                    stick.physicsBody?.categoryBitMask = 128
-                   stick.physicsBody?.collisionBitMask = 0
+                 stick.physicsBody?.collisionBitMask=0
+            
                }
         //Initialize the labels
         upLabel = self.childNode(withName: "uplabel") as! SKLabelNode
@@ -122,12 +130,77 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
        
     }
     func didBegin(_ contact: SKPhysicsContact) {
-//        print(contact.bodyA.)
+        var WALL_IS:Bool = false
+        var IS_STOP:Bool = false
+
+        var FLAG_IS:Bool = false
+        var IS_WIN:Bool = false
+
+        
+        let nodeA = contact.bodyA.node
+        let nodeB = contact.bodyB.node
+        
+        print(nodeA!.name!)
+        print(nodeB!.name!)
+    
+        if(nodeA!.name! == "isblock" &&
+            nodeB!.name!=="wallblock"){
+            WALL_IS = true;
+        }
+        if(nodeA!.name! == "isblock" &&
+            nodeB!.name!=="stopblock"){
+            IS_STOP = true;
+        }
+        if(nodeA!.name! == "isblock" &&
+            nodeB!.name!=="wallblock"){
+            WALL_IS = true;
+        }
+        if(nodeA!.name! == "isblock" &&
+            nodeB!.name!=="stopblock"){
+            IS_STOP = true;
+        }
+        if(WALL_IS && IS_STOP){
+            //WALL IS STOP
+            self.enumerateChildNodes(withName: "wall") {
+                              (node, stop) in
+                              let stick = node as! SKSpriteNode
+                              stick.physicsBody = SKPhysicsBody(rectangleOf: stick.size)
+                              stick.physicsBody?.affectedByGravity = false
+                              stick.physicsBody?.categoryBitMask = 128
+                       stick.physicsBody?.collisionBitMask=0
+
+                          }
+
+        }
+        else{
+            
+        }
+        if(WALL_IS && IS_WIN){
+            //WALL IS WIN
+        }
+        if(FLAG_IS && IS_STOP){
+            //FLAG IS STOP
+        }
+        if(FLAG_IS && IS_WIN){
+            //FLAG IS WIN
+        }
+
+        //        if(self.wallBlock.frame.intersects(self.isBlock.frame)
+//        &&
+//            self.isBlock.frame.intersects(self.stopBlock.frame)){
+//            print("COLLISION! UODATE")
+//        }
+
         print("Something collided!")
     }
     
+    
     override func update(_ currentTime: TimeInterval) {
-       
+        if(self.wallBlock.frame.intersects(self.isBlock.frame)
+        &&
+            self.isBlock.frame.intersects(self.stopBlock.frame)){
+            print("COLLISION! UODATE")
+        }
         // Called before each frame is rendered
     }
     
