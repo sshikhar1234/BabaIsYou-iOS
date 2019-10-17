@@ -41,7 +41,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var downLabel: SKLabelNode!
     var leftLabel: SKLabelNode!
     var rightLabel: SKLabelNode!
-    
+    var WALL_IS:Bool = false
+       var IS_STOP:Bool = false
+
+       var FLAG_IS:Bool = false
+       var IS_WIN:Bool = false
+
 
     override func didMove(to view: SKView) {
         self.physicsWorld.contactDelegate = self
@@ -130,12 +135,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
        
     }
     func didBegin(_ contact: SKPhysicsContact) {
-        var WALL_IS:Bool = false
-        var IS_STOP:Bool = false
-
-        var FLAG_IS:Bool = false
-        var IS_WIN:Bool = false
-
+   
         
         let nodeA = contact.bodyA.node
         let nodeB = contact.bodyB.node
@@ -160,6 +160,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             IS_STOP = true;
         }
         if(WALL_IS && IS_STOP){
+            print("WALL IS STOP")
             //WALL IS STOP
             self.enumerateChildNodes(withName: "wall") {
                               (node, stop) in
@@ -177,12 +178,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         if(WALL_IS && IS_WIN){
             //WALL IS WIN
+            print("WALL IS WIN")
+
         }
         if(FLAG_IS && IS_STOP){
             //FLAG IS STOP
+            print("FLAG IS STOP")
+
         }
         if(FLAG_IS && IS_WIN){
             //FLAG IS WIN
+            print("FLAG IS WIN")
+
         }
 
         //        if(self.wallBlock.frame.intersects(self.isBlock.frame)
